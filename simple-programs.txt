@@ -1,0 +1,513 @@
+FirstUnique Character:
+
+package simple1;
+
+public class FirstUniqueCharacter {
+	
+	public static char getFirstUniqueCharacter(String str){
+		if(str.length()==1){
+			return str.charAt(0);
+		}
+		
+		for(int i=0;i<str.length();i++){
+			char ch = str.charAt(i);
+			if(str.indexOf(ch)==str.lastIndexOf(ch)){
+				return str.charAt(i);
+			}
+		}
+		
+		return (Character) null;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		String str = "lleetcode";
+		System.out.println(getFirstUniqueCharacter(str));
+	}
+
+}
+
+
+2. Largest Number formed in the array:
+package simple1;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class LargestNumberFormedinArray {
+	
+	public static String largestNumber(int[] num){
+		
+		List<String> list = new ArrayList<>();
+		StringBuilder res = new StringBuilder();
+		
+		for(int i:num){
+			list.add(String.valueOf(i));
+		}
+		
+		Collections.sort(list, (String a, String b) ->{
+				// TODO Auto-generated method stub
+				String ab = a+b;
+				String ba = b+a;
+				return ab.compareTo(ba)>0?-1:1;
+				
+		});
+		
+		list.forEach(s -> res.append(s));
+		return res.toString();
+		
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		int[] num ={1,2,3,4,5};
+		System.out.println(largestNumber(num));
+
+	}
+
+}
+
+3. Leaders in the array:
+
+package simple1;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class LeadersInArray {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int[] a ={15,18,3,5,6,2};
+		int max=0;
+		List<Integer> leaders = new ArrayList<>();
+		for(int i=a.length-1;i>=0;i--){
+			if(max<a[i]){
+				max=a[i];
+				leaders.add(a[i]);
+			}
+		}
+		
+		System.out.println(leaders);
+	}
+
+}
+
+
+4. Most repeated word in the File:
+package simple1;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MostRepeatedWordInFile {
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		
+		BufferedReader br = new BufferedReader(new FileReader("./sample.txt"));
+		
+		Map<String, Integer> wordCount = new HashMap<>();
+		Map<String, Integer> sortedWords = new LinkedHashMap<>();
+		
+		String line = br.readLine();
+		
+		while(line!=null){
+			String[] words = line.split(" ");
+			for(String word:words){
+				wordCount.put(word, wordCount.getOrDefault(word, 0)+1);
+			}
+			line = br.readLine();
+		}
+		
+		wordCount.forEach((k,v)->System.out.println(k+" "+v));
+		
+		List<Map.Entry<String,Integer>> wl = new ArrayList<>(wordCount.entrySet());
+		
+		Collections.sort(wl, new Comparator<Map.Entry<String,Integer>>(){
+			@Override
+			public int compare(Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) 
+			{
+				return (e2.getValue().compareTo(e1.getValue()));
+			}
+		});
+	
+		wl.forEach(w -> sortedWords.put(w.getKey(), w.getValue()));
+		
+		sortedWords.forEach((k,v)->System.out.println(k+" "+v));
+		
+
+	}
+
+}
+
+5.Move Zeros:
+package simple1;
+
+import java.util.Arrays;
+
+public class MoveZeros {
+	
+	public static void moveZeros(int[] num){
+		int index=0;
+		for(int i=0;i<num.length;i++){
+			if(num[i]!=0)
+				num[index++] = num[i];
+		}
+		
+		for(int i=index;i<num.length;i++){
+			num[i]=0;
+		}
+		
+		System.out.println(Arrays.toString(num));
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		int[] a = {0,1,0,3,6,12};
+		
+		moveZeros(a);
+
+	}
+
+}
+
+
+6. Ransom Note:
+package simple1;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class RansomNote {
+	
+	public static boolean ransomNote(String ransomNote, String magazine){
+		
+		Map<Character, Integer> count = new HashMap<>();
+		for(char ch: magazine.toCharArray()){
+			count.put(ch, count.getOrDefault(ch, 0)+1);
+		}
+		
+		for(char ch: ransomNote.toCharArray()){
+			if(!count.containsKey(ch) || count.get(ch)<=0){
+				return false;
+			}
+			
+			count.put(ch, count.get(ch)-1);
+		}
+		
+		return true;
+		
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		System.out.println(ransomNote("a","b"));
+		System.out.println(ransomNote("aa","b"));
+		System.out.println(ransomNote("aa","aab"));
+	}
+
+}
+
+
+7.Remove Only Vowels:
+package simple1;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class RemoveOnlyVowels {
+	
+	public static void removeOnlyVowels(String str){
+		Set<Character> vowels = new HashSet<>();
+		vowels.add('a');
+		vowels.add('e');
+		vowels.add('i');
+		vowels.add('o');
+		vowels.add('u');
+		StringBuilder s = new StringBuilder();
+		int i=0;
+		while(i<=str.length()-1){
+			if(!vowels.contains(str.charAt(i))){
+				s.append(str.charAt(i));
+			}
+			i++;
+		}
+		
+		System.out.println(s.toString());
+		
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String str ="leetcodeisforcoders";
+		removeOnlyVowels(str);
+	}
+
+}
+
+8. Reverse Only Letters:
+
+package simple1;
+
+import java.util.Arrays;
+
+public class ReverseOnlyLetters {
+	
+	public static void swap(char[] ch,int i, int j){
+		char temp = ch[j];
+		ch[j] = ch[i];
+		ch[i] = temp;
+	}
+	public static void reverseOnlyLetters(String str){
+		
+		char[] ch = str.toCharArray();
+		int i=0;
+		int j = str.length()-1;
+		
+		while(i<j){
+			while(i<j && !Character.isLetter(ch[i])){
+				i++;
+			}
+			while(i<j && !Character.isLetter(ch[j])){
+				j--;
+			}
+			swap(ch,i,j);
+			i++;
+			j--;
+			
+		}
+		
+		System.out.println(Arrays.toString(ch));
+		
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		String str = "A&B-CC-D";
+		reverseOnlyLetters(str);
+		
+		//For the string "ab-ac" output is "ca-ba";
+		//For the string "aa-b" output is "ba-a"
+		//For the string "A&B-CC-D" output is "D&C-CB-A"
+
+	}
+
+}
+
+
+9. Reverse only vowels:
+
+package simple1;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+public class ReverseOnlyVowels {
+	
+	public static void reverseOnlyVowels(String str){
+		Set<Character> vowels = new HashSet<>();
+		vowels.add('A');
+		vowels.add('a');
+		vowels.add('E');
+		vowels.add('e');
+		vowels.add('I');
+		vowels.add('i');
+		vowels.add('O');
+		vowels.add('o');
+		vowels.add('U');
+		vowels.add('u');
+		char[] ch = str.toCharArray();
+		int i=0;
+		int j= str.length()-1;
+		
+		while(i<j){
+			while(i<j && !vowels.contains(str.charAt(i))){
+				i++;
+			}
+			while(i<j && !vowels.contains(str.charAt(j))){
+				j--;
+			}
+			
+			char temp = ch[i];
+			ch[i]=ch[j];
+			ch[j]=temp;
+			
+			i++;
+			j--;
+		}
+		
+		System.out.println(Arrays.toString(ch));
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		String str = "hello";
+		
+		reverseOnlyVowels(str);
+
+	}
+
+}
+
+10. Rotate array:
+package simple1;
+
+import java.util.Arrays;
+
+public class RotateArray {
+	
+	public static void swap(int[] arr, int i, int j)
+    {
+        int data = arr[i];
+        arr[i] = arr[j];
+        arr[j] = data;
+    }
+ 
+    // Function to reverse a given subarray
+    public static void reverse(int[] arr, int low, int high)
+    {
+        for (int i = low, j = high; i < j; i++, j--) {
+            swap(arr, i, j);
+        }
+    }
+ 
+    // Function to left-rotate an array by `r` positions
+    public static void leftRotate(int[] arr, int r)
+    {
+        // base case: invalid input
+        if (r < 0 || r >= arr.length) {
+            return;
+        }
+ 
+        // Reverse the first `r` elements
+        reverse(arr, 0, r - 1);
+ 
+        // Reverse the remaining `n-r` elements
+        reverse(arr, r, arr.length - 1);
+ 
+        // Reverse the whole array
+        reverse(arr, 0, arr.length - 1);
+    }
+ 
+    public static void main(String[] args)
+    {
+        int[] arr = { 1, 2, 3, 4, 5 };
+        int r = 3;
+ 
+        leftRotate(arr, r);
+        System.out.println(Arrays.toString(arr));
+    }
+
+}
+
+11. String anagram:
+
+package simple1;
+
+public class StringAnagram {
+	
+	public static boolean checkAnagram(String s1, String s2){
+		if(s1.length()!=s2.length()){
+			return false;
+		}
+		
+		int[] counts = new int[26];
+		for(int i=0;i<s1.length();i++){
+			counts[s1.charAt(i)-'a']++;
+			counts[s2.charAt(i)-'a']--;
+		}
+		
+		for(int i: counts){
+			if(i!=0)
+				return false;
+		}
+		
+		return true;
+		
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String s1 = "helko";
+		String s2 = "holle";
+		
+		System.out.println(checkAnagram(s1,s2));
+
+	}
+
+}
+
+
+12. String to number:
+
+package simple1;
+
+public class StringToNumber {
+
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		String s = "3256";
+		//ascii value of 0 is 48
+		int sum=0;
+		for(char c:s.toCharArray()){
+			int asci = (int)c;
+			sum = (sum*10)+(asci-48);
+		}
+		System.out.println(sum);
+
+	}
+
+}
+
+
+13. Valid Palindrome:
+
+package simple1;
+
+public class ValidPalindrome {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		String str = "9*abab,a9";
+		int i=0;
+		int j = str.length()-1;
+		boolean flag=true;
+		while(i<j){
+			while(i<j && !Character.isLetter(str.charAt(i)))
+				i++;
+			while(i<j && !Character.isLetter(str.charAt(j)))
+				j--;
+			
+			if(str.charAt(i)!=str.charAt(j))
+				flag=false;
+			i++;
+			j--;
+			
+		}
+			
+		System.out.print("Given String: "+str+" is a valida palindrome: "+flag);
+	}
+
+}
+
