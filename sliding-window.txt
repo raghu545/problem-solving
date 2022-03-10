@@ -1,0 +1,83 @@
+1. Maximum sum of sub array of size k
+
+package slidingwindow.fixedwindow;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MaximunSumofSubArrayofSizeK {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		int a[] ={12,15,1,8,2,9,1,10};
+		int i=0;
+		int j=0;
+		int sum=0;
+		int maxSum=0;
+		int k=3; //Size of the sub array
+		List<Integer> list = new ArrayList<>();
+		
+		while(j<a.length){
+			
+			if(j-i+1 < k){
+				sum = sum + a[j];
+				j++;
+			}
+			else if (j-i+1==k){
+				sum = sum + a[j];
+				maxSum = Math.max(sum,maxSum);
+				sum = sum-a[i];
+				i++;
+				j++;
+			}
+			
+		}
+		
+		System.out.println("Max Sum:"+maxSum);
+	}
+
+}
+
+
+2. First negative number in the array:
+
+package SlidingWindowTechnique;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class FirstNegative {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		int[] a = {12,-1,-8,8,5,-15,3};
+		int i=0;
+		int j=0;
+		int k=2;
+		List<Integer> list = new ArrayList<>();
+		while(j<a.length){
+			if(a[j]<0){
+				list.add(a[j]);
+			}
+			if(j-i+1==k){
+				if(list.size()==0)
+					System.out.println(0);
+				else if(list.size()>0){
+					System.out.println(list.get(0));
+					if(list.get(0)==a[i]){
+						list.remove(0);
+					}
+				}
+				i++;
+			}
+			j++;
+		}
+
+	}
+
+}
+
+
+3. 
