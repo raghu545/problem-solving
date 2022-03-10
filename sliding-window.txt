@@ -80,4 +80,187 @@ public class FirstNegative {
 }
 
 
-3. 
+3. Longest Substring with K unique characters.
+
+package SlidingWindowTechnique;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class LongestSubStringWithKUniqueChars {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		String s = "aabacbebeb";
+		int i=0;
+		int j=0;
+		int k=3; //3 unique chars has to be there in sub string
+		Map<Character, Integer> map = new HashMap<Character,Integer>();
+		int max=0;
+		
+		while (j<s.length()){
+			if(map.containsKey(s.charAt(j))){
+				map.put(s.charAt(j), map.get(s.charAt(j))+1);
+			}
+			else{
+				map.put(s.charAt(j), 1);
+			}
+			
+			if(map.size()<k)
+				j++;
+			else if(map.size()==k){
+				max = Math.max(max, j-i+1);
+				j++;
+			}
+			
+			else if(map.size()>k){
+				while(map.size()>k){
+					map.put(s.charAt(i), map.get(s.charAt(i))-1);
+					if(map.get(s.charAt(i))==0)
+						map.remove(s.charAt(i));
+					i++;
+				}
+				j++;
+			}
+		}
+		
+		System.out.println("max length:"+max);
+	}
+
+}
+
+
+4. Longest Substring with Non Repeating chars
+package SlidingWindowTechnique;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class LongestSubStringWithNonRepeatingChars {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		String s = "aabc";
+		int i=0;
+		int j=0;
+		int max=0;
+		Map<Character,Integer> map = new HashMap<>();
+		
+		while(j<s.length()){ 
+			char c = s.charAt(j);
+			if(map.containsKey(c))
+				map.put(c, map.get(c)+1);
+			else
+					map.put(c, 1);
+			
+			if(map.size()<j-i+1){
+				while(map.size()<j-i+1){
+					map.put(s.charAt(i), map.get(s.charAt(i))-1);
+					
+					if(map.get(s.charAt(i))==0)
+						map.remove(s.charAt(i));
+					i++;
+				}
+				j++;
+			}
+			
+			else if(map.size()==j-i+1){
+				max = Math.max(max, j-i+1);
+				j++;
+			}
+			
+		}
+		
+		System.out.println(max);
+
+	}
+
+}
+
+5. Pick Toys:
+package SlidingWindowTechnique;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/*
+ * Problem statement: Mom and Kid went to Toy Shop & Kid wants to buy toys present in toys shelf.
+ * Mom agreed with a condition that at any moment in your bag there should be at most 2 unique toys and you need
+ * to pick the toys continuously
+ */
+public class PickToys {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		String s = "abbbaaaccabababab";
+		int i=0;
+		int j=0;
+		int k=2;
+		int max=0;
+		Map<Character,Integer> map = new HashMap<>();
+		
+		while(j<s.length()){
+			
+			if(map.containsKey(s.charAt(j)))
+				map.put(s.charAt(j), map.get(s.charAt(j))+1);
+			else
+				map.put(s.charAt(j), 1);
+			
+			if(map.size()<k)
+				j++;
+			
+			else if(map.size()==k){
+				max = Math.max(max, j-i+1);
+				j++;
+				
+			}
+			
+			else if(map.size()>k){
+				while(map.size()>k){
+					map.put(s.charAt(i), map.get(s.charAt(i))-1);
+					if(map.get(s.charAt(i))==0)
+						map.remove(s.charAt(i));
+					i++;
+				}
+				j++;
+			}
+		}
+		
+		System.out.println(max);
+
+	}
+
+}
+
+6. Find All pairs whose sum is equal to N
+
+package SlidingWindowTechnique;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class FindAllPairsSumEqualtoN {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		int a[] = {2,4,3,5,3,2,1,6};
+		int sum = 7;
+		Set<Integer> hs = new HashSet<>();
+		for (int i=0;i<a.length;i++){
+			int target = sum - a[i];
+			if(hs.contains(target)){
+				System.out.println("Pair is "+a[i]+" and"+target);
+			}
+			hs.add(a[i]);
+		}
+
+	}
+
+}
+
+ 
+ 
